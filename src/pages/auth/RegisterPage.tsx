@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAppDispatch } from '@/app/hooks';
-import { registerUser } from '@/features/auth/authSlice';
+import { useAuth } from '@/contexts/AuthContext';
 
 const registerSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
@@ -20,7 +19,7 @@ const registerSchema = Yup.object().shape({
 
 export function RegisterPage() {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const { register } = useAuth();
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
@@ -35,17 +34,11 @@ export function RegisterPage() {
             validationSchema={registerSchema}
             onSubmit={async (values, { setSubmitting, setFieldError }) => {
               try {
-                await dispatch(
-                  registerUser({
-                    email: values.email,
-                    password: values.password,
-                    name: values.name,
-                  })
-                ).unwrap();
+                await register(values.email, values.password, values.name);
                 toast.success('Registration successful');
                 navigate('/');
               } catch (error: any) {
-                toast.error(error.message || 'Registration failed');
+                toast.error(error.response?.data?.message || error.message || 'Registration failed');
                 setFieldError('email', error.message);
               } finally {
                 setSubmitting(false);

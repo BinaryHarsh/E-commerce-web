@@ -2,8 +2,8 @@ import { Moon, Sun, Menu, ShoppingCart, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/theme/theme-provider';
-import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import { logout } from '@/features/auth/authSlice';
+import { useAppSelector } from '@/app/hooks';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,14 +15,13 @@ import { useState } from 'react';
 
 export function Header() {
   const { theme, setTheme } = useTheme();
-  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+  const { isAuthenticated, user, logout } = useAuth();
   const { items } = useAppSelector((state) => state.cart);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleLogout = () => {
-    dispatch(logout());
+    logout();
     navigate('/auth/login');
   };
 

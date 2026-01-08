@@ -62,6 +62,7 @@ src/
 ### Prerequisites
 
 - Node.js 18+ and npm
+- Backend API server running (see API_DOCUMENTATION.md for endpoint details)
 
 ### Installation
 
@@ -70,12 +71,22 @@ src/
 npm install
 ```
 
-2. Start the development server:
+2. Configure environment variables:
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and set your API URL:
+```
+VITE_API_URL=http://localhost:3000/api
+```
+
+3. Start the development server:
 ```bash
 npm run dev
 ```
 
-3. Open your browser and navigate to `http://localhost:5173`
+4. Open your browser and navigate to `http://localhost:5173`
 
 ### Build for Production
 
@@ -89,15 +100,11 @@ npm run build
 npm run preview
 ```
 
-## Default Credentials
+## Backend API
 
-### Admin Account
-- Email: `admin@example.com`
-- Password: `password`
+This frontend requires a backend API server. See `API_DOCUMENTATION.md` for complete API endpoint specifications.
 
-### Regular User
-- Email: `user@example.com`
-- Password: `password`
+The API base URL is configured via the `VITE_API_URL` environment variable in `.env`.
 
 ## Features in Detail
 
@@ -112,9 +119,9 @@ npm run preview
 - Fully responsive across all screen sizes
 
 ### State Management
-- Redux Toolkit for global state
-- Redux Persist for cart and auth persistence
-- Typed hooks for type-safe state access
+- Redux Toolkit for cart state only (persisted in localStorage)
+- React Context API for authentication state
+- Direct API calls for all data fetching (products, orders, users)
 
 ### Form Validation
 - All forms use Formik + Yup
@@ -122,9 +129,11 @@ npm run preview
 - Error messages via Sonner toasts
 
 ### API Layer
-- Mock API implementation included
-- Easy to replace with real backend
+- Real API calls using Axios
+- Environment variable configuration for API URL
+- Automatic token injection in requests
 - Error handling and interceptors configured
+- See `API_DOCUMENTATION.md` for backend API requirements
 
 ## Code Formatting
 

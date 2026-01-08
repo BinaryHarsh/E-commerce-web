@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import { fetchOrders, proceedOrder, cancelOrder } from '@/features/orders/orderSlice';
+import { ordersAPI } from '@/services/api';
 import {
   Table,
   TableBody,
@@ -13,32 +12,45 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import type { Order } from '@/types';
 
 export function OrdersPage() {
-  const dispatch = useAppDispatch();
-  const { orders, loading } = useAppSelector((state) => state.orders);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchOrders());
-  }, [dispatch]);
+    loadOrders();
+  }, []);
+
+  const loadOrders = async () => {
+    try {
+      setLoading(true);
+      const data = await ordersAPI.getAll();
+      setOrders(data);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || error.message || 'Failed to load orders');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleProceed = async (id: string) => {
     try {
-      await dispatch(proceedOrder(id)).unwrap();
+      await ordersAPI.proceed(id);
       toast.success('Order proceeded successfully');
-      dispatch(fetchOrders());
+      loadOrders();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to proceed order');
+      toast.error(error.response?.data?.message || error.message || 'Failed to proceed order');
     }
   };
 
   const handleCancel = async (id: string) => {
     try {
-      await dispatch(cancelOrder(id)).unwrap();
+      await ordersAPI.cancel(id);
       toast.success('Order cancelled successfully');
-      dispatch(fetchOrders());
+      loadOrders();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to cancel order');
+      toast.error(error.response?.data?.message || error.message || 'Failed to cancel order');
     }
   };
 

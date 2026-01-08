@@ -29,7 +29,7 @@ export function ResetPasswordPage() {
                 await authAPI.resetPassword(values.email);
                 toast.success('Password reset link sent to your email');
               } catch (error: any) {
-                toast.error(error.message || 'Failed to send reset link');
+                toast.error(error.response?.data?.message || error.message || 'Failed to send reset link');
                 setFieldError('email', error.message);
               } finally {
                 setSubmitting(false);

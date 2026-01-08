@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import { fetchProductById } from '@/features/products/productSlice';
+import { useAppDispatch } from '@/app/hooks';
+import { productsAPI } from '@/services/api';
 import { addToCart } from '@/features/cart/cartSlice';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,21 +10,31 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ShoppingCart } from 'lucide-react';
+import type { Product } from '@/types';
 
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { products } = useAppSelector((state) => state.products);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
 
-  const product = products.find((p) => p.id === id);
-
   useEffect(() => {
-    if (id && !product) {
-      dispatch(fetchProductById(id));
-    }
-  }, [id, product, dispatch]);
+    const loadProduct = async () => {
+      if (!id) return;
+      try {
+        setLoading(true);
+        const data = await productsAPI.getById(id);
+        setProduct(data);
+      } catch (error: any) {
+        toast.error(error.response?.data?.message || error.message || 'Failed to load product');
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProduct();
+  }, [id]);
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -40,7 +50,7 @@ export function ProductDetailPage() {
     toast.success('Product added to cart');
   };
 
-  if (!product) {
+  if (loading || !product) {
     return <div className="container py-8">Loading...</div>;
   }
 

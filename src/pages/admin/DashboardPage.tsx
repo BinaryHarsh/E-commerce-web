@@ -1,16 +1,27 @@
-import { useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import { fetchOrders } from '@/features/orders/orderSlice';
+import { useEffect, useState } from 'react';
+import { ordersAPI } from '@/services/api';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ShoppingBag, CheckCircle, XCircle, DollarSign, TrendingUp, TrendingDown } from 'lucide-react';
+import type { Order } from '@/types';
 
 export function DashboardPage() {
-  const dispatch = useAppDispatch();
-  const { orders } = useAppSelector((state) => state.orders);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchOrders());
-  }, [dispatch]);
+    const loadOrders = async () => {
+      try {
+        setLoading(true);
+        const data = await ordersAPI.getAll();
+        setOrders(data);
+      } catch (error: any) {
+        console.error('Failed to load orders:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadOrders();
+  }, []);
 
   const totalOrders = orders.length;
   const completedOrders = orders.filter((o) => o.status === 'proceeded').length;
@@ -33,6 +44,10 @@ export function DashboardPage() {
 
   const profit = totalRevenue - totalCost;
   const isProfit = profit >= 0;
+
+  if (loading) {
+    return <div className="container py-8">Loading...</div>;
+  }
 
   return (
     <div className="container py-8">

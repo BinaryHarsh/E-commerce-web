@@ -1,21 +1,34 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import { fetchProducts } from '@/features/products/productSlice';
+import { useAppDispatch } from '@/app/hooks';
+import { productsAPI } from '@/services/api';
 import { addToCart } from '@/features/cart/cartSlice';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { ShoppingCart } from 'lucide-react';
+import type { Product } from '@/types';
 
 export function ProductsPage() {
   const dispatch = useAppDispatch();
-  const { products, loading } = useAppSelector((state) => state.products);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    const loadProducts = async () => {
+      try {
+        setLoading(true);
+        const data = await productsAPI.getAll();
+        setProducts(data);
+      } catch (error: any) {
+        toast.error(error.response?.data?.message || error.message || 'Failed to load products');
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProducts();
+  }, []);
 
   const handleAddToCart = (product: any) => {
     if (product.stock === 0) {

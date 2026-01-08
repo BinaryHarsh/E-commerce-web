@@ -6,8 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import { updateProfile } from '@/features/auth/authSlice';
+import { useAuth } from '@/contexts/AuthContext';
 import { authAPI } from '@/services/api';
 
 const profileSchema = Yup.object().shape({
@@ -24,8 +23,7 @@ const passwordSchema = Yup.object().shape({
 });
 
 export function ProfilePage() {
-  const { user } = useAppSelector((state) => state.auth);
-  const dispatch = useAppDispatch();
+  const { user, updateProfile } = useAuth();
 
   if (!user) return null;
 
@@ -49,10 +47,10 @@ export function ProfilePage() {
                 validationSchema={profileSchema}
                 onSubmit={async (values, { setSubmitting }) => {
                   try {
-                    await dispatch(updateProfile(values)).unwrap();
+                    await updateProfile(values);
                     toast.success('Profile updated successfully');
                   } catch (error: any) {
-                    toast.error(error.message || 'Failed to update profile');
+                    toast.error(error.response?.data?.message || error.message || 'Failed to update profile');
                   } finally {
                     setSubmitting(false);
                   }
@@ -105,7 +103,7 @@ export function ProfilePage() {
                     toast.success('Password updated successfully');
                     resetForm();
                   } catch (error: any) {
-                    toast.error(error.message || 'Failed to update password');
+                    toast.error(error.response?.data?.message || error.message || 'Failed to update password');
                   } finally {
                     setSubmitting(false);
                   }

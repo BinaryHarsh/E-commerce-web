@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import {
-  fetchProductsAdmin,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-} from '@/features/products/productSlice';
+import { productsAPI } from '@/services/api';
 import {
   Table,
   TableBody,
@@ -25,45 +19,57 @@ import { Label } from '@/components/ui/label';
 import type { Product } from '@/types';
 
 export function ProductsPage() {
-  const dispatch = useAppDispatch();
-  const { products, loading } = useAppSelector((state) => state.products);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    dispatch(fetchProductsAdmin());
-  }, [dispatch]);
+    loadProducts();
+  }, []);
+
+  const loadProducts = async () => {
+    try {
+      setLoading(true);
+      const data = await productsAPI.getAllAdmin();
+      setProducts(data);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || error.message || 'Failed to load products');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCreate = async (data: any) => {
     try {
-      await dispatch(createProduct(data)).unwrap();
+      await productsAPI.create(data);
       toast.success('Product created successfully');
       setIsCreateDialogOpen(false);
-      dispatch(fetchProductsAdmin());
+      loadProducts();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to create product');
+      toast.error(error.response?.data?.message || error.message || 'Failed to create product');
     }
   };
 
   const handleUpdate = async (id: string, data: any) => {
     try {
-      await dispatch(updateProduct({ id, data })).unwrap();
+      await productsAPI.update(id, data);
       toast.success('Product updated successfully');
       setEditingProduct(null);
-      dispatch(fetchProductsAdmin());
+      loadProducts();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to update product');
+      toast.error(error.response?.data?.message || error.message || 'Failed to update product');
     }
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
     try {
-      await dispatch(deleteProduct(id)).unwrap();
+      await productsAPI.delete(id);
       toast.success('Product deleted successfully');
-      dispatch(fetchProductsAdmin());
+      loadProducts();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to delete product');
+      toast.error(error.response?.data?.message || error.message || 'Failed to delete product');
     }
   };
 

@@ -3,8 +3,9 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import { createOrder } from '@/features/orders/orderSlice';
+import { ordersAPI } from '@/services/api';
 import { clearCart } from '@/features/cart/cartSlice';
+import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,7 +23,7 @@ export function CheckoutPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { items, total } = useAppSelector((state) => state.cart);
-  const { user } = useAppSelector((state) => state.auth);
+  const { user } = useAuth();
 
   if (items.length === 0) {
     navigate('/cart');
@@ -55,18 +56,12 @@ export function CheckoutPage() {
               validationSchema={checkoutSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  await dispatch(
-                    createOrder({
-                      items,
-                      userId: user.id,
-                      userEmail: user.email,
-                    })
-                  ).unwrap();
+                  await ordersAPI.create(items, values);
                   dispatch(clearCart());
                   toast.success('Order placed successfully!');
                   navigate('/');
                 } catch (error: any) {
-                  toast.error(error.message || 'Failed to place order');
+                  toast.error(error.response?.data?.message || error.message || 'Failed to place order');
                 } finally {
                   setSubmitting(false);
                 }

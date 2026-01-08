@@ -32,7 +32,7 @@ export function UsersPage() {
       const data = await usersAPI.getAll();
       setUsers(data);
     } catch (error: any) {
-      toast.error(error.message || 'Failed to load users');
+      toast.error(error.response?.data?.message || error.message || 'Failed to load users');
     } finally {
       setLoading(false);
     }
@@ -45,7 +45,7 @@ export function UsersPage() {
       setIsCreateDialogOpen(false);
       loadUsers();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to create user');
+      toast.error(error.response?.data?.message || error.message || 'Failed to create user');
     }
   };
 
@@ -56,7 +56,7 @@ export function UsersPage() {
       setEditingUser(null);
       loadUsers();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to update user');
+      toast.error(error.response?.data?.message || error.message || 'Failed to update user');
     }
   };
 
@@ -67,7 +67,7 @@ export function UsersPage() {
       toast.success('User deleted successfully');
       loadUsers();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to delete user');
+      toast.error(error.response?.data?.message || error.message || 'Failed to delete user');
     }
   };
 

@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAppDispatch } from '@/app/hooks';
-import { loginUser } from '@/features/auth/authSlice';
+import { useAuth } from '@/contexts/AuthContext';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
@@ -16,7 +15,7 @@ const loginSchema = Yup.object().shape({
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const { login } = useAuth();
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
@@ -31,11 +30,11 @@ export function LoginPage() {
             validationSchema={loginSchema}
             onSubmit={async (values, { setSubmitting, setFieldError }) => {
               try {
-                await dispatch(loginUser(values)).unwrap();
+                await login(values.email, values.password);
                 toast.success('Login successful');
                 navigate('/');
               } catch (error: any) {
-                toast.error(error.message || 'Login failed');
+                toast.error(error.response?.data?.message || error.message || 'Login failed');
                 setFieldError('email', error.message);
               } finally {
                 setSubmitting(false);
