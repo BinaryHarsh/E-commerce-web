@@ -1,0 +1,130 @@
+import { useEffect } from 'react';
+import { toast } from 'sonner';
+import { useAppSelector, useAppDispatch } from '@/app/hooks';
+import { fetchOrders, proceedOrder, cancelOrder } from '@/features/orders/orderSlice';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+
+export function OrdersPage() {
+  const dispatch = useAppDispatch();
+  const { orders, loading } = useAppSelector((state) => state.orders);
+
+  useEffect(() => {
+    dispatch(fetchOrders());
+  }, [dispatch]);
+
+  const handleProceed = async (id: string) => {
+    try {
+      await dispatch(proceedOrder(id)).unwrap();
+      toast.success('Order proceeded successfully');
+      dispatch(fetchOrders());
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to proceed order');
+    }
+  };
+
+  const handleCancel = async (id: string) => {
+    try {
+      await dispatch(cancelOrder(id)).unwrap();
+      toast.success('Order cancelled successfully');
+      dispatch(fetchOrders());
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to cancel order');
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    const variants: Record<string, 'default' | 'secondary' | 'destructive'> = {
+      pending: 'secondary',
+      proceeded: 'default',
+      cancelled: 'destructive',
+    };
+    return <Badge variant={variants[status]}>{status}</Badge>;
+  };
+
+  if (loading) {
+    return <div className="container py-8">Loading...</div>;
+  }
+
+  return (
+    <div className="container py-8">
+      <h1 className="text-3xl font-bold mb-8">Orders Management</h1>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>All Orders</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {orders.length === 0 ? (
+            <p className="text-center text-muted-foreground py-8">No orders found</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Order ID</TableHead>
+                  <TableHead>User Email</TableHead>
+                  <TableHead>Items</TableHead>
+                  <TableHead>Total</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orders.map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell className="font-medium">{order.id}</TableCell>
+                    <TableCell>{order.userEmail}</TableCell>
+                    <TableCell>{order.items.length} item(s)</TableCell>
+                    <TableCell>${order.total.toFixed(2)}</TableCell>
+                    <TableCell>{getStatusBadge(order.status)}</TableCell>
+                    <TableCell>{new Date(order.createdAt).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-2">
+                        {order.status === 'pending' && (
+                          <>
+                            <Button
+                              size="sm"
+                              onClick={() => handleProceed(order.id)}
+                            >
+                              Proceed
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleCancel(order.id)}
+                            >
+                              Cancel
+                            </Button>
+                          </>
+                        )}
+                        {order.status === 'proceeded' && (
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => handleCancel(order.id)}
+                          >
+                            Cancel
+                          </Button>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
