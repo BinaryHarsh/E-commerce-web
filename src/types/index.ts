@@ -2,7 +2,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'user';
+  role: 'ADMIN' | 'USER';
   createdAt: string;
 }
 
@@ -14,7 +14,7 @@ export interface Product {
   salePrice: number;
   margin: number;
   stock: number;
-  isActive: boolean;
+  isVisible: boolean;
   images: string[];
   createdAt: string;
   updatedAt: string;
@@ -25,15 +25,29 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface OrderItem {
+  id: string;
+  productId: string;
+  quantity: number;
+  price: number;
+  product: {
+    id: string;
+    name: string;
+  };
+}
+
 export interface Order {
   id: string;
   userId: string;
-  userEmail: string;
-  items: CartItem[];
-  total: number;
-  status: 'pending' | 'proceeded' | 'cancelled';
+  user: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  status: 'PENDING' | 'PROCEEDED' | 'CANCELLED';
+  totalAmount: number;
+  orderItems: OrderItem[];
   createdAt: string;
-  updatedAt: string;
 }
 
 export interface AuthState {

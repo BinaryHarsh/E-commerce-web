@@ -22,6 +22,8 @@ export function ProductsPage() {
         const data = await productsAPI.getAll();
         setProducts(data);
       } catch (error: any) {
+        console.error('Error loading products:', error);
+        setProducts([]);
         toast.error(error.response?.data?.message || error.message || 'Failed to load products');
       } finally {
         setLoading(false);

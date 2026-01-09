@@ -26,15 +26,24 @@ export function ProductDetailPage() {
       try {
         setLoading(true);
         const data = await productsAPI.getById(id);
-        setProduct(data);
+        console.log('Product data:', data);
+        if (data && data.salePrice !== undefined) {
+          setProduct(data);
+        } else {
+          console.error('Invalid product data:', data);
+          toast.error('Invalid product data received');
+          navigate('/products');
+        }
       } catch (error: any) {
+        console.error('Error loading product:', error);
         toast.error(error.response?.data?.message || error.message || 'Failed to load product');
+        navigate('/products');
       } finally {
         setLoading(false);
       }
     };
     loadProduct();
-  }, [id]);
+  }, [id, navigate]);
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -83,7 +92,9 @@ export function ProductDetailPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <p className="text-3xl font-bold">${product.salePrice.toFixed(2)}</p>
+                <p className="text-3xl font-bold">
+                  ${product.salePrice ? product.salePrice.toFixed(2) : '0.00'}
+                </p>
                 {product.stock === 0 && (
                   <Badge variant="destructive" className="mt-2">
                     Out of Stock

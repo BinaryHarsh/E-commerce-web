@@ -1,4 +1,4 @@
-import React from 'react';
+
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -10,16 +10,14 @@ import { AppRoutes } from './routes';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
           <AuthProvider>
             <AppRoutes />
-            <Toaster position="top-right" />
+            <Toaster position="top-center" />
           </AuthProvider>
         </ThemeProvider>
       </PersistGate>
     </Provider>
-  </React.StrictMode>
 );

@@ -19,7 +19,7 @@ const productSchema = Yup.object().shape({
       return !purchasePrice || !value || value > purchasePrice;
     }),
   stock: Yup.number().min(0, 'Stock must be non-negative').required('Stock is required'),
-  isActive: Yup.boolean(),
+  isVisible: Yup.boolean(),
 });
 
 interface ProductFormProps {
@@ -36,7 +36,7 @@ export function ProductForm({ product, onSubmit, onCancel }: ProductFormProps) {
         purchasePrice: product.purchasePrice,
         salePrice: product.salePrice,
         stock: product.stock,
-        isActive: product.isActive,
+        isVisible: product.isVisible,
         images: product.images.join(', '),
       }
     : {
@@ -45,7 +45,7 @@ export function ProductForm({ product, onSubmit, onCancel }: ProductFormProps) {
         purchasePrice: 0,
         salePrice: 0,
         stock: 0,
-        isActive: true,
+        isVisible: true,
         images: '',
       };
 
@@ -159,10 +159,10 @@ export function ProductForm({ product, onSubmit, onCancel }: ProductFormProps) {
 
             <div className="flex items-center gap-2">
               <Switch
-                checked={values.isActive}
-                onCheckedChange={(checked) => setFieldValue('isActive', checked)}
+                checked={values.isVisible}
+                onCheckedChange={(checked) => setFieldValue('isVisible', checked)}
               />
-              <Label htmlFor="isActive">Active</Label>
+              <Label htmlFor="isVisible">Visible</Label>
             </div>
 
             <div className="flex justify-end gap-2">

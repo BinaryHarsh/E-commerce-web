@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
+import { authAPI } from '@/services/api';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
@@ -30,9 +31,16 @@ export function LoginPage() {
             validationSchema={loginSchema}
             onSubmit={async (values, { setSubmitting, setFieldError }) => {
               try {
-                await login(values.email, values.password);
+                const { user, token } = await authAPI.login(values.email, values.password);
                 toast.success('Login successful');
-                navigate('/');
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('role', user.role);
+                localStorage.setItem('token', token);
+                if (user.role === 'ADMIN') {
+                  navigate('/admin/dashboard');
+                } else {
+                  navigate('/user/products');
+                }
               } catch (error: any) {
                 toast.error(error.response?.data?.message || error.message || 'Login failed');
                 setFieldError('email', error.message);

@@ -41,7 +41,7 @@ export function Header() {
             >
               Products
             </Link>
-            {isAuthenticated && user?.role === 'admin' && (
+            {isAuthenticated && user?.role === 'ADMIN' && (
               <Link
                 to="/admin/dashboard"
                 className="text-sm font-medium transition-colors hover:text-primary"
@@ -86,7 +86,7 @@ export function Header() {
                   <DropdownMenuItem onClick={() => navigate('/profile')}>
                     Profile
                   </DropdownMenuItem>
-                  {user?.role === 'admin' && (
+                  {user?.role === 'ADMIN' && (
                     <DropdownMenuItem onClick={() => navigate('/admin/dashboard')}>
                       Admin Dashboard
                     </DropdownMenuItem>
@@ -120,7 +120,7 @@ export function Header() {
                   >
                     Products
                   </Link>
-                  {isAuthenticated && user?.role === 'admin' && (
+                  {isAuthenticated && user?.role === 'ADMIN' && (
                     <Link
                       to="/admin/dashboard"
                       className="block text-sm font-medium"

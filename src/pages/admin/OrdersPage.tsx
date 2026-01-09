@@ -26,7 +26,7 @@ export function OrdersPage() {
     try {
       setLoading(true);
       const data = await ordersAPI.getAll();
-      setOrders(data);
+      setOrders(data || []);
     } catch (error: any) {
       toast.error(error.response?.data?.message || error.message || 'Failed to load orders');
     } finally {
@@ -56,11 +56,11 @@ export function OrdersPage() {
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, 'default' | 'secondary' | 'destructive'> = {
-      pending: 'secondary',
-      proceeded: 'default',
-      cancelled: 'destructive',
+      PENDING: 'secondary',
+      PROCEEDED: 'default',
+      CANCELLED: 'destructive',
     };
-    return <Badge variant={variants[status]}>{status}</Badge>;
+    return <Badge variant={variants[status] || 'secondary'}>{status}</Badge>;
   };
 
   if (loading) {
@@ -83,7 +83,7 @@ export function OrdersPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Order ID</TableHead>
-                  <TableHead>User Email</TableHead>
+                  <TableHead>User</TableHead>
                   <TableHead>Items</TableHead>
                   <TableHead>Total</TableHead>
                   <TableHead>Status</TableHead>
@@ -95,14 +95,19 @@ export function OrdersPage() {
                 {orders.map((order) => (
                   <TableRow key={order.id}>
                     <TableCell className="font-medium">{order.id}</TableCell>
-                    <TableCell>{order.userEmail}</TableCell>
-                    <TableCell>{order.items.length} item(s)</TableCell>
-                    <TableCell>${order.total.toFixed(2)}</TableCell>
+                    <TableCell>
+                      <div>
+                        <div className="font-medium">{order.user.name}</div>
+                        <div className="text-sm text-muted-foreground">{order.user.email}</div>
+                      </div>
+                    </TableCell>
+                    <TableCell>{order.orderItems.length} item(s)</TableCell>
+                    <TableCell>${order.totalAmount.toFixed(2)}</TableCell>
                     <TableCell>{getStatusBadge(order.status)}</TableCell>
                     <TableCell>{new Date(order.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell>
                       <div className="flex gap-2">
-                        {order.status === 'pending' && (
+                        {order.status === 'PENDING' && (
                           <>
                             <Button
                               size="sm"
@@ -119,7 +124,7 @@ export function OrdersPage() {
                             </Button>
                           </>
                         )}
-                        {order.status === 'proceeded' && (
+                        {order.status === 'PROCEEDED' && (
                           <Button
                             size="sm"
                             variant="destructive"

@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
@@ -11,13 +11,14 @@ import {
   Settings,
 } from 'lucide-react';
 import { useState } from 'react';
+import { ROUTES } from '@/routes/routes';
 
 const adminNavItems = [
-  { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/admin/orders', label: 'Orders', icon: ShoppingBag },
-  { path: '/admin/products', label: 'Products', icon: Package },
-  { path: '/admin/users', label: 'Users', icon: Users },
-  { path: '/admin/profile', label: 'Profile', icon: Settings },
+  { path: ROUTES.ADMIN.DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
+  { path: ROUTES.ADMIN.ORDERS, label: 'Orders', icon: ShoppingBag },
+  { path: ROUTES.ADMIN.PRODUCTS, label: 'Products', icon: Package },
+  { path: ROUTES.ADMIN.USERS, label: 'Users', icon: Users },
+  { path: ROUTES.ADMIN.PROFILE, label: 'Profile', icon: Settings },
 ];
 
 export function DrawerLayout({ children }: { children: React.ReactNode }) {

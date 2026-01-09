@@ -74,7 +74,7 @@ export function ProductsPage() {
   };
 
   const handleToggleActive = async (product: Product) => {
-    await handleUpdate(product.id, { isActive: !product.isActive });
+    await handleUpdate(product.id, { isVisible: !product.isVisible });
   };
 
   if (loading) {
@@ -129,10 +129,10 @@ export function ProductsPage() {
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Switch
-                          checked={product.isActive}
+                          checked={product.isVisible}
                           onCheckedChange={() => handleToggleActive(product)}
                         />
-                        <Label>{product.isActive ? 'Active' : 'Inactive'}</Label>
+                        <Label>{product.isVisible ? 'Visible' : 'Hidden'}</Label>
                       </div>
                     </TableCell>
                     <TableCell>

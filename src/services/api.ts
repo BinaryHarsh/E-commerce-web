@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { User, Product, Order, CartItem } from '@/types';
+import { AUTH_URLS, PRODUCT_URLS, ORDER_URLS, USER_URLS } from './apiUrls';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
@@ -32,94 +33,132 @@ api.interceptors.response.use(
 // Auth API
 export const authAPI = {
   login: async (email: string, password: string): Promise<{ user: User; token: string }> => {
-    const response = await api.post('/auth/login', { email, password });
-    const { user, token } = response.data;
+    const response = await api.post(AUTH_URLS.LOGIN, { email, password });
+    const { user, token } = response.data.data;
     localStorage.setItem('token', token);
     return { user, token };
   },
 
   register: async (email: string, password: string, name: string): Promise<{ user: User; token: string }> => {
-    const response = await api.post('/auth/register', { email, password, name });
+    const response = await api.post(AUTH_URLS.REGISTER, { email, password, name });
     const { user, token } = response.data;
     localStorage.setItem('token', token);
     return { user, token };
   },
 
   getCurrentUser: async (): Promise<User> => {
-    const response = await api.get('/auth/me');
-    return response.data;
+    const response = await api.get(AUTH_URLS.GET_CURRENT_USER);
+    return response.data.data;
   },
 
   updateProfile: async (data: { name?: string; email?: string }): Promise<User> => {
-    const response = await api.put('/auth/profile', data);
+    const response = await api.put(AUTH_URLS.UPDATE_PROFILE, data);
     return response.data;
   },
 
   updatePassword: async (oldPassword: string, newPassword: string): Promise<void> => {
-    await api.put('/auth/password', { oldPassword, newPassword });
+    await api.put(AUTH_URLS.UPDATE_PASSWORD, { oldPassword, newPassword });
   },
 
   resetPassword: async (email: string): Promise<void> => {
-    await api.post('/auth/reset-password', { email });
+    await api.post(AUTH_URLS.RESET_PASSWORD, { email });
   },
 };
 
 // Products API
 export const productsAPI = {
   getAll: async (): Promise<Product[]> => {
-    const response = await api.get('/products');
-    return response.data;
+    const response = await api.get(PRODUCT_URLS.GET_ALL);
+    // Handle different response formats
+    console.log(response.data);
+    return response.data.data.products;
   },
 
   getAllAdmin: async (): Promise<Product[]> => {
-    const response = await api.get('/admin/products');
-    return response.data;
+    const response = await api.get(PRODUCT_URLS.GET_ALL_ADMIN);
+    return response.data.data.products;
   },
 
   getById: async (id: string): Promise<Product> => {
-    const response = await api.get(`/products/${id}`);
+    const response = await api.get(PRODUCT_URLS.GET_BY_ID(id));
+    console.log('Product getById response:', response.data);
+    // Handle different response formats
+    if (response.data && response.data.data) {
+      return response.data.data;
+    } else if (response.data && response.data.product) {
+      return response.data.product;
+    } else if (response.data && response.data.data?.product) {
+      return response.data.data.product;
+    }
     return response.data;
   },
 
   create: async (data: Omit<Product, 'id' | 'createdAt' | 'updatedAt' | 'margin'>): Promise<Product> => {
-    const response = await api.post('/admin/products', data);
+    const response = await api.post(PRODUCT_URLS.CREATE, data);
     return response.data;
   },
 
   update: async (id: string, data: Partial<Product>): Promise<Product> => {
-    const response = await api.put(`/admin/products/${id}`, data);
+    const response = await api.put(PRODUCT_URLS.UPDATE(id), data);
     return response.data;
   },
 
   delete: async (id: string): Promise<void> => {
-    await api.delete(`/admin/products/${id}`);
+    await api.delete(PRODUCT_URLS.DELETE(id));
   },
 };
 
 // Orders API
 export const ordersAPI = {
   getAll: async (): Promise<Order[]> => {
-    const response = await api.get('/admin/orders');
-    return response.data;
+    const response = await api.get(ORDER_URLS.GET_ALL);
+    // Handle different response formats
+    if (Array.isArray(response.data)) {
+      return response.data;
+    } else if (response.data && Array.isArray(response.data.data)) {
+      return response.data.data;
+    } else if (response.data && Array.isArray(response.data.data?.orders)) {
+      return response.data.data.orders;
+    } else if (response.data && Array.isArray(response.data.orders)) {
+      return response.data.orders;
+    }
+    console.warn('Unexpected orders API response format:', response.data);
+    return [];
   },
 
   getById: async (id: string): Promise<Order> => {
-    const response = await api.get(`/orders/${id}`);
+    const response = await api.get(ORDER_URLS.GET_BY_ID(id));
+    // Handle different response formats
+    if (response.data && response.data.data) {
+      return response.data.data;
+    }
     return response.data;
   },
 
   create: async (items: CartItem[], shippingInfo: any): Promise<Order> => {
-    const response = await api.post('/orders', { items, shippingInfo });
+    const response = await api.post(ORDER_URLS.CREATE, { items, shippingInfo });
+    // Handle different response formats
+    if (response.data && response.data.data) {
+      return response.data.data;
+    }
     return response.data;
   },
 
   proceed: async (id: string): Promise<Order> => {
-    const response = await api.put(`/admin/orders/${id}/proceed`);
+    const response = await api.put(ORDER_URLS.PROCEED(id));
+    // Handle different response formats
+    if (response.data && response.data.data) {
+      return response.data.data;
+    }
     return response.data;
   },
 
   cancel: async (id: string): Promise<Order> => {
-    const response = await api.put(`/admin/orders/${id}/cancel`);
+    const response = await api.put(ORDER_URLS.CANCEL(id));
+    // Handle different response formats
+    if (response.data && response.data.data) {
+      return response.data.data;
+    }
     return response.data;
   },
 };
@@ -127,27 +166,27 @@ export const ordersAPI = {
 // Users API
 export const usersAPI = {
   getAll: async (): Promise<User[]> => {
-    const response = await api.get('/admin/users');
-    return response.data;
+    const response = await api.get(USER_URLS.GET_ALL);
+    return response.data.data.users;
   },
 
   getById: async (id: string): Promise<User> => {
-    const response = await api.get(`/admin/users/${id}`);
-    return response.data;
+    const response = await api.get(USER_URLS.GET_BY_ID(id));
+    return response.data.data;
   },
 
   create: async (data: Omit<User, 'id' | 'createdAt'>): Promise<User> => {
-    const response = await api.post('/admin/users', data);
-    return response.data;
+    const response = await api.post(USER_URLS.CREATE, data);
+    return response.data.data;
   },
 
   update: async (id: string, data: Partial<User>): Promise<User> => {
-    const response = await api.put(`/admin/users/${id}`, data);
-    return response.data;
+    const response = await api.put(USER_URLS.UPDATE(id), data);
+    return response.data.data;
   },
 
   delete: async (id: string): Promise<void> => {
-    await api.delete(`/admin/users/${id}`);
+    await api.delete(USER_URLS.DELETE(id));
   },
 };
 

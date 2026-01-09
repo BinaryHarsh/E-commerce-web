@@ -9,7 +9,7 @@ import type { User } from '@/types';
 const userSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
-  role: Yup.string().oneOf(['admin', 'user']).required('Role is required'),
+  role: Yup.string().oneOf(['ADMIN', 'USER']).required('Role is required'),
 });
 
 interface UserFormProps {
