@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAppDispatch } from '@/app/hooks';
+import { loginUser, setUser } from '@/features/auth/authSlice';
 import { authAPI } from '@/services/api';
 
 const loginSchema = Yup.object().shape({
@@ -16,7 +17,7 @@ const loginSchema = Yup.object().shape({
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const dispatch = useAppDispatch();
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
@@ -31,16 +32,15 @@ export function LoginPage() {
             validationSchema={loginSchema}
             onSubmit={async (values, { setSubmitting, setFieldError }) => {
               try {
-                const { user, token } = await authAPI.login(values.email, values.password);
-                toast.success('Login successful');
-                localStorage.setItem('user', JSON.stringify(user));
-                localStorage.setItem('role', user.role);
-                localStorage.setItem('token', token);
-                if (user.role === 'ADMIN') {
+                const result = await authAPI.login(values.email, values.password);
+                
+                dispatch(setUser(result.user));
+                if (result.user.role === 'ADMIN') {
                   navigate('/admin/dashboard');
                 } else {
                   navigate('/user/products');
                 }
+                toast.success('Login successful');
               } catch (error: any) {
                 toast.error(error.response?.data?.message || error.message || 'Login failed');
                 setFieldError('email', error.message);

@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Web Application - Complete Documentation</title>
+    <style>
+        @page {
+            margin: 2cm;
+            size: A4;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 100%;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #1a1a1a;
+            border-bottom: 3px solid #3b82f6;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            page-break-after: avoid;
+        }
+        
+        h2 {
+            color: #2563eb;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            page-break-after: avoid;
+        }
+        
+        h3 {
+            color: #3b82f6;
+            margin-top: 20px;
+            page-break-after: avoid;
+        }
+        
+        h4 {
+            color: #60a5fa;
+            margin-top: 15px;
+        }
+        
+        code {
+            background-color: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e11d48;
+        }
+        
+        pre {
+            background-color: #1f2937;
+            color: #f9fafb;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            page-break-inside: avoid;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #f9fafb;
+            padding: 0;
+        }
+        
+        blockquote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 15px;
+            margin-left: 0;
+            color: #6b7280;
+            font-style: italic;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            page-break-inside: avoid;
+        }
+        
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #3b82f6;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px solid #e5e7eb;
+            margin: 30px 0;
+        }
+        
+        .toc {
+            background-color: #f9fafb;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            margin-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 8px;
+        }
+        
+        .toc a {
+            color: #2563eb;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+            
+            pre, blockquote {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>E-Commerce Web Application - Complete Documentation</h1><p><strong>Version</strong>: 1.0.0  </p>
+<p><strong>Last Updated</strong>: 2024</p><p>---</p><h1>Table of Contents</h1><ul><li>[Project Overview](#project-overview)</li></ul>
+<ul><li>[Quick Start Guide](#quick-start-guide)</li></ul>
+<ul><li>[Architecture & Implementation](#architecture--implementation)</li></ul>
+<ul><li>[Detailed Documentation](#detailed-documentation)</li></ul><p>---</p><h1>Project Overview</h1><h1>E-Commerce Web Application</h1><p>A modern, full-featured e-commerce web application built with React, TypeScript, and cutting-edge frontend technologies. This application provides a complete shopping experience for end-users and comprehensive management tools for administrators.</p><h2>🚀 Tech Stack</h2><ul><li><strong>React 18</strong> + <strong>Vite</strong> - Fast development and optimized production builds</li></ul>
+<ul><li><strong>TypeScript</strong> - Type-safe development with full IntelliSense support</li></ul>
+<ul><li><strong>Tailwind CSS</strong> - Utility-first CSS framework for rapid UI development</li></ul>
+<ul><li><strong>shadcn/ui</strong> - Beautiful, accessible component library built on Radix UI</li></ul>
+<ul><li><strong>Redux Toolkit</strong> - State management for cart (persisted) and authentication</li></ul>
+<ul><li><strong>React Router v6</strong> - Declarative routing with protected routes</li></ul>
+<ul><li><strong>Formik + Yup</strong> - Powerful form handling with schema validation</li></ul>
+<ul><li><strong>Sonner</strong> - Elegant toast notifications</li></ul>
+<ul><li><strong>Axios</strong> - HTTP client with interceptors for API calls</li></ul>
+<ul><li><strong>Prettier</strong> - Consistent code formatting</li></ul><h2>✨ Features</h2><h3>👤 End User Features</h3>
+<ul><li><strong>Authentication System</strong></li></ul>
+<p>  - User registration and login</p>
+<p>  - Password reset functionality</p>
+<p>  - Profile management with password update</p>
+<p>  - Secure token-based authentication</p><ul><li><strong>Product Browsing</strong></li></ul>
+<p>  - Browse all available products</p>
+<p>  - View detailed product information</p>
+<p>  - Out-of-stock indicators</p>
+<p>  - Responsive product grid layout</p><ul><li><strong>Shopping Cart</strong></li></ul>
+<p>  - Add/remove products to cart</p>
+<p>  - Update quantities</p>
+<p>  - Persistent cart (survives page refresh)</p>
+<p>  - Real-time total calculation</p><ul><li><strong>Checkout & Orders</strong></li></ul>
+<p>  - Secure checkout process</p>
+<p>  - Shipping information form</p>
+<p>  - Order placement with validation</p>
+<p>  - Order history viewing</p><h3>👨‍💼 Admin Features</h3>
+<ul><li><strong>Dashboard</strong></li></ul>
+<p>  - Revenue and profit overview</p>
+<p>  - Order statistics</p>
+<p>  - Quick access to all management sections</p><ul><li><strong>Orders Management</strong></li></ul>
+<p>  - View all orders with detailed information</p>
+<p>  - Proceed orders (update status)</p>
+<p>  - Cancel orders</p>
+<p>  - Filter and search functionality</p><ul><li><strong>Products Management</strong></li></ul>
+<p>  - Create new products with images</p>
+<p>  - Edit existing products</p>
+<p>  - Delete products</p>
+<p>  - Toggle product visibility</p>
+<p>  - Stock management</p><ul><li><strong>Users Management</strong></li></ul>
+<p>  - View all registered users</p>
+<p>  - Create new user accounts</p>
+<p>  - Edit user information</p>
+<p>  - Delete user accounts</p><ul><li><strong>Admin Profile</strong></li></ul>
+<p>  - Update profile information</p>
+<p>  - Change password</p>
+<p>  - View account details</p><h2>📁 Project Structure</h2><pre><code>src/</p>
+<p>├── app/</p>
+<p>│   ├── store.ts          # Redux store configuration with persistence</p>
+<p>│   └── hooks.ts          # Typed Redux hooks (useAppDispatch, useAppSelector)</p>
+<p>│</p>
+<p>├── components/</p>
+<p>│   ├── layout/           # Layout components</p>
+<p>│   │   ├── Header.tsx    # Global header with navigation</p>
+<p>│   │   ├── SidebarLayout.tsx  # Desktop sidebar navigation</p>
+<p>│   │   └── DrawerLayout.tsx   # Mobile drawer navigation</p>
+<p>│   ├── ui/               # shadcn/ui components (Button, Card, Input, etc.)</p>
+<p>│   └── common/           # Shared components</p>
+<p>│       └── ProtectedRoute.tsx  # Route protection with role-based access</p>
+<p>│</p>
+<p>├── contexts/</p>
+<p>│   └── AuthContext.tsx   # Authentication context (legacy, now using Redux)</p>
+<p>│</p>
+<p>├── features/</p>
+<p>│   ├── auth/             # Authentication Redux slice</p>
+<p>│   │   └── authSlice.ts  # Login, register, profile management</p>
+<p>│   ├── cart/             # Shopping cart Redux slice</p>
+<p>│   │   └── cartSlice.ts  # Add, remove, update cart items (persisted)</p>
+<p>│   ├── products/         # Products management</p>
+<p>│   │   ├── productSlice.ts</p>
+<p>│   │   └── ProductForm.tsx</p>
+<p>│   ├── orders/           # Orders management</p>
+<p>│   │   └── orderSlice.ts</p>
+<p>│   └── users/            # User management</p>
+<p>│       └── UserForm.tsx</p>
+<p>│</p>
+<p>├── pages/</p>
+<p>│   ├── admin/            # Admin pages</p>
+<p>│   │   ├── DashboardPage.tsx</p>
+<p>│   │   ├── OrdersPage.tsx</p>
+<p>│   │   ├── ProductsPage.tsx</p>
+<p>│   │   ├── UsersPage.tsx</p>
+<p>│   │   └── AdminProfilePage.tsx</p>
+<p>│   ├── auth/             # Authentication pages</p>
+<p>│   │   ├── LoginPage.tsx</p>
+<p>│   │   ├── RegisterPage.tsx</p>
+<p>│   │   └── ResetPasswordPage.tsx</p>
+<p>│   └── user/             # User-facing pages</p>
+<p>│       ├── HomePage.tsx</p>
+<p>│       ├── ProductsPage.tsx</p>
+<p>│       ├── ProductDetailPage.tsx</p>
+<p>│       ├── CartPage.tsx</p>
+<p>│       ├── CheckoutPage.tsx</p>
+<p>│       └── ProfilePage.tsx</p>
+<p>│</p>
+<p>├── routes/</p>
+<p>│   ├── index.tsx         # Main routing configuration</p>
+<p>│   └── routes.ts         # Centralized route constants</p>
+<p>│</p>
+<p>├── services/</p>
+<p>│   ├── api.ts            # Axios instance with interceptors</p>
+<p>│   └── apiUrls.ts        # Centralized API endpoint definitions</p>
+<p>│</p>
+<p>├── theme/</p>
+<p>│   └── theme-provider.tsx  # Dark/Light mode theme provider</p>
+<p>│</p>
+<p>├── types/</p>
+<p>│   └── index.ts          # TypeScript interfaces and types</p>
+<p>│</p>
+<p>└── utils/</p>
+<p>    └── cn.ts             # Utility for combining class names</p>
+<p></code></pre><p>---</p><h1>Quick Start Guide</h1><h2>🛠️ Getting Started</h2><h3>Prerequisites</h3><ul><li><strong>Node.js</strong> 18+ and <strong>npm</strong> (or <strong>yarn</strong>)</li></ul>
+<ul><li>Backend API server running (see <code>API_DOCUMENTATION.md</code> for endpoint details)</li></ul><h3>Installation</h3><ul><li><strong>Clone the repository</strong> (if applicable) or navigate to the project directory</li></ul><ul><li><strong>Install dependencies:</strong></li></ul>
+<p>   <pre><code>   npm install</p>
+<p>   </code></pre><ul><li><strong>Configure environment variables:</strong></li></ul>
+<p>   </p>
+<p>   Create a <code>.env</code> file in the root directory:</p>
+<p>   <pre><code>   VITE_API_URL=http://localhost:3000/api</p>
+<p>   </code></pre>
+<p>   </p>
+<p>   Replace with your actual backend API URL.</p><ul><li><strong>Start the development server:</strong></li></ul>
+<p>   <pre><code>   npm run dev</p>
+<p>   </code></pre><ul><li><strong>Open your browser:</strong></li></ul>
+<p>   Navigate to <code>http://localhost:5173</code> (or the port shown in terminal)</p><h3>Build for Production</h3><pre><code>npm run build</p>
+<p></code></pre><p>The production build will be in the <code>dist/</code> directory.</p><h3>Preview Production Build</h3><pre><code>npm run preview</p>
+<p></code></pre><h2>🔐 Authentication Flow</h2><ul><li><strong>Login/Register</strong>: User credentials are sent to the backend API</li></ul>
+<ul><li><strong>Token Storage</strong>: JWT token is stored in localStorage</li></ul>
+<ul><li><strong>Redux State</strong>: User data and authentication state are stored in Redux</li></ul>
+<ul><li><strong>Auto Token Injection</strong>: Axios interceptor automatically adds token to all API requests</li></ul>
+<ul><li><strong>Protected Routes</strong>: Routes are protected based on authentication status and user role</li></ul>
+<ul><li><strong>Auto Logout</strong>: On 401 errors, user is automatically logged out and redirected</li></ul><h2>🎨 Theme System</h2><ul><li><strong>Dark/Light Mode</strong>: Toggle between themes</li></ul>
+<ul><li><strong>System Preference</strong>: Automatically detects system theme</li></ul>
+<ul><li><strong>Persistent</strong>: Theme preference saved in localStorage</li></ul>
+<ul><li><strong>Accessible</strong>: Full keyboard navigation support</li></ul><h2>📱 Responsive Design</h2><ul><li><strong>Desktop</strong>: Full sidebar navigation with all features</li></ul>
+<ul><li><strong>Tablet</strong>: Optimized layout with collapsible sidebar</li></ul>
+<ul><li><strong>Mobile</strong>: Hamburger menu with drawer navigation</li></ul>
+<ul><li><strong>Breakpoints</strong>: Fully responsive across all screen sizes</li></ul><h2>🔄 State Management</h2><h3>Redux Store Structure</h3><pre><code>{</p>
+<p>  cart: {</p>
+<p>    items: CartItem[],</p>
+<p>    total: number</p>
+<p>  },</p>
+<p>  auth: {</p>
+<p>    user: User | null,</p>
+<p>    token: string | null,</p>
+<p>    isAuthenticated: boolean</p>
+<p>  }</p>
+<p>}</p>
+<p></code></pre><ul><li><strong>Cart</strong>: Persisted in localStorage (survives page refresh)</li></ul>
+<ul><li><strong>Auth</strong>: Managed in Redux store (user data and token)</li></ul>
+<ul><li><strong>Products/Orders</strong>: Fetched directly from API (no Redux state)</li></ul><h2>📡 API Integration</h2><ul><li><strong>Base URL</strong>: Configured via <code>VITE_API_URL</code> environment variable</li></ul>
+<ul><li><strong>Centralized URLs</strong>: All API endpoints defined in <code>src/services/apiUrls.ts</code></li></ul>
+<ul><li><strong>Interceptors</strong>: </li></ul>
+<p>  - Request: Automatically adds Authorization header</p>
+<p>  - Response: Handles 401 errors and redirects to login</p>
+<ul><li><strong>Error Handling</strong>: Comprehensive error handling with user-friendly messages</li></ul><h2>🧪 Form Validation</h2><p>All forms use <strong>Formik</strong> for form state management and <strong>Yup</strong> for schema validation:</p><ul><li>Real-time validation feedback</li></ul>
+<ul><li>Error messages displayed inline</li></ul>
+<ul><li>Toast notifications for success/error states</li></ul>
+<ul><li>Prevents invalid form submissions</li></ul><h2>🎯 Code Quality</h2><h3>Formatting</h3><p>Prettier is configured with:</p>
+<ul><li>Single quotes</li></ul>
+<ul><li>Semicolons</li></ul>
+<ul><li>Trailing commas (ES5)</li></ul>
+<ul><li>80 character line width</li></ul><p>Format code:</p>
+<pre><code>npm run format</p>
+<p></code></pre><h3>Linting</h3><p>ESLint is configured for TypeScript and React:</p>
+<pre><code>npm run lint</p>
+<p></code></pre><h2>🔒 Security Features</h2><ul><li>JWT token-based authentication</li></ul>
+<ul><li>Protected routes with role-based access control</li></ul>
+<ul><li>Automatic token refresh handling</li></ul>
+<ul><li>Secure password handling (never logged)</li></ul>
+<ul><li>XSS protection via React's built-in escaping</li></ul><h2>🚦 Route Protection</h2><ul><li><strong>Public Routes</strong>: Home, Products, Product Details, Cart</li></ul>
+<ul><li><strong>Authenticated Routes</strong>: Checkout, Profile (requires login)</li></ul>
+<ul><li><strong>Admin Routes</strong>: All <code>/admin/*</code> routes (requires ADMIN role)</li></ul><h2>🐛 Error Handling</h2><ul><li><strong>API Errors</strong>: Displayed via toast notifications</li></ul>
+<ul><li><strong>Network Errors</strong>: User-friendly error messages</li></ul>
+<ul><li><strong>Validation Errors</strong>: Inline form validation</li></ul>
+<ul><li><strong>404 Errors</strong>: Automatic redirect to home page</li></ul><h2>📦 Key Dependencies</h2><ul><li><code>react</code> & <code>react-dom</code> - UI library</li></ul>
+<ul><li><code>react-router-dom</code> - Routing</li></ul>
+<ul><li><code>@reduxjs/toolkit</code> - State management</li></ul>
+<ul><li><code>redux-persist</code> - State persistence</li></ul>
+<ul><li><code>axios</code> - HTTP client</li></ul>
+<ul><li><code>formik</code> & <code>yup</code> - Form handling</li></ul>
+<ul><li><code>sonner</code> - Toast notifications</li></ul>
+<ul><li><code>tailwindcss</code> - Styling</li></ul>
+<ul><li><code>lucide-react</code> - Icons</li></ul><p>---</p><h1>Architecture & Implementation</h1><h1>E-Commerce Web Application - Implementation Documentation</h1><p>This document provides a comprehensive guide to the implementation, architecture, and flow of the E-Commerce Web Application.</p><h2>📋 Table of Contents</h2><ul><li>[Architecture Overview](#architecture-overview)</li></ul>
+<ul><li>[Project Setup & Configuration](#project-setup--configuration)</li></ul>
+<ul><li>[State Management](#state-management)</li></ul>
+<ul><li>[Authentication Flow](#authentication-flow)</li></ul>
+<ul><li>[Routing & Navigation](#routing--navigation)</li></ul>
+<ul><li>[API Integration](#api-integration)</li></ul>
+<ul><li>[Component Architecture](#component-architecture)</li></ul>
+<ul><li>[Form Handling](#form-handling)</li></ul>
+<ul><li>[Theme System](#theme-system)</li></ul>
+<ul><li>[Data Flow Diagrams](#data-flow-diagrams)</li></ul>
+<ul><li>[Implementation Details](#implementation-details)</li></ul><p>---</p><h2>🏗️ Architecture Overview</h2><h3>High-Level Architecture</h3><pre><code>┌─────────────────────────────────────────────────────────────┐</p>
+<p>│                     React Application                        │</p>
+<p>├─────────────────────────────────────────────────────────────┤</p>
+<p>│                                                               │</p>
+<p>│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │</p>
+<p>│  │   Pages      │  │  Components  │  │   Services   │      │</p>
+<p>│  │              │  │              │  │              │      │</p>
+<p>│  │ - Admin      │  │ - Layout     │  │ - API Calls  │      │</p>
+<p>│  │ - User       │  │ - UI         │  │ - Interceptors│      │</p>
+<p>│  │ - Auth       │  │ - Common     │  │              │      │</p>
+<p>│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘      │</p>
+<p>│         │                 │                  │               │</p>
+<p>│         └─────────────────┼──────────────────┘               │</p>
+<p>│                           │                                  │</p>
+<p>│                  ┌─────────▼─────────┐                       │</p>
+<p>│                  │   Redux Store     │                       │</p>
+<p>│                  │                   │                       │</p>
+<p>│                  │ - Cart (Persist) │                       │</p>
+<p>│                  │ - Auth           │                       │</p>
+<p>│                  └─────────┬─────────┘                       │</p>
+<p>│                            │                                  │</p>
+<p>└────────────────────────────┼──────────────────────────────────┘</p>
+<p>                             │</p>
+<p>                    ┌────────▼────────┐</p>
+<p>                    │  Backend API    │</p>
+<p>                    │  (External)     │</p>
+<p>                    └─────────────────┘</p>
+<p></code></pre><h3>Technology Stack Layers</h3><ul><li><strong>Presentation Layer</strong>: React Components (Pages, UI Components)</li></ul>
+<ul><li><strong>State Layer</strong>: Redux Toolkit (Cart, Auth)</li></ul>
+<ul><li><strong>Service Layer</strong>: Axios API Service</li></ul>
+<ul><li><strong>Routing Layer</strong>: React Router v6</li></ul>
+<ul><li><strong>Styling Layer</strong>: Tailwind CSS + shadcn/ui</li></ul>
+<ul><li><strong>Form Layer</strong>: Formik + Yup</li></ul><p>---</p><h2>⚙️ Project Setup & Configuration</h2><h3>Environment Configuration</h3><p><strong>File</strong>: <code>.env</code>
+<pre><code>VITE_API_URL=http://localhost:3000/api</p>
+<p></code></pre><p><strong>TypeScript Declaration</strong>: <code>src/vite-env.d.ts</code>
+<pre><code>interface ImportMetaEnv {</p>
+<p>  readonly VITE_API_URL: string;</p>
+<p>}</p>
+<p></code></pre><h3>Vite Configuration</h3><p><strong>File</strong>: <code>vite.config.ts</code>
+<ul><li>React plugin for JSX transformation</li></ul>
+<ul><li>Path aliases configured (<code>@/</code> → <code>src/</code>)</li></ul>
+<ul><li>TypeScript support</li></ul><h3>Redux Store Configuration</h3><p><strong>File</strong>: <code>src/app/store.ts</code><pre><code>{</p>
+<p>  reducer: {</p>
+<p>    cart: persistedCartReducer,  // Persisted in localStorage</p>
+<p>    auth: authReducer             // In-memory state</p>
+<p>  }</p>
+<p>}</p>
+<p></code></pre><p><strong>Persistence</strong>: Only cart state is persisted using <code>redux-persist</code><h3>Tailwind Configuration</h3><p><strong>File</strong>: <code>tailwind.config.js</code>
+<ul><li>Dark mode: <code>class</code> strategy</li></ul>
+<ul><li>Custom theme colors</li></ul>
+<ul><li>Animation support via <code>tailwindcss-animate</code></li></ul><p>---</p><h2>🔄 State Management</h2><h3>Redux Store Structure</h3><h4>Cart State (Persisted)</h4><p><strong>Location</strong>: <code>src/features/cart/cartSlice.ts</code><pre><code>interface CartState {</p>
+<p>  items: CartItem[];      // Array of cart items</p>
+<p>  total: number;          // Calculated total</p>
+<p>}</p><p>interface CartItem {</p>
+<p>  product: Product;</p>
+<p>  quantity: number;</p>
+<p>}</p>
+<p></code></pre><p><strong>Actions</strong>:</p>
+<ul><li><code>addToCart({ product, quantity })</code> - Add product to cart</li></ul>
+<ul><li><code>removeFromCart(productId)</code> - Remove product from cart</li></ul>
+<ul><li><code>updateQuantity({ productId, quantity })</code> - Update item quantity</li></ul>
+<ul><li><code>clearCart()</code> - Empty the cart</li></ul><p><strong>Persistence</strong>: Cart state is automatically saved to localStorage and restored on page load.</p><h4>Auth State</h4><p><strong>Location</strong>: <code>src/features/auth/authSlice.ts</code><pre><code>interface AuthState {</p>
+<p>  user: User | null;</p>
+<p>  token: string | null;</p>
+<p>  isAuthenticated: boolean;</p>
+<p>}</p>
+<p></code></pre><p><strong>Async Thunks</strong>:</p>
+<ul><li><code>loginUser({ email, password })</code> - Login and set user state</li></ul>
+<ul><li><code>registerUser({ email, password, name })</code> - Register new user</li></ul>
+<ul><li><code>getCurrentUser()</code> - Fetch current user from API</li></ul>
+<ul><li><code>updateProfile(data)</code> - Update user profile</li></ul><p><strong>Reducers</strong>:</p>
+<ul><li><code>logout</code> - Clear auth state and remove token</li></ul>
+<ul><li><code>setUser</code> - Manually set user (for initialization)</li></ul><h3>State Access Pattern</h3><pre><code>// In components</p>
+<p>import { useAppDispatch, useAppSelector } from '@/app/hooks';</p><p>const dispatch = useAppDispatch();</p>
+<p>const cartItems = useAppSelector((state) => state.cart.items);</p>
+<p>const user = useAppSelector((state) => state.auth.user);</p>
+<p></code></pre><p>---</p><h2>🔐 Authentication Flow</h2><h3>Complete Authentication Flow</h3><pre><code>┌─────────────┐</p>
+<p>│  User Login │</p>
+<p>└──────┬──────┘</p>
+<p>       │</p>
+<p>       ▼</p>
+<p>┌─────────────────────┐</p>
+<p>│ LoginPage Component │</p>
+<p>│  - Formik Form      │</p>
+<p>│  - Validation       │</p>
+<p>└──────┬──────────────┘</p>
+<p>       │</p>
+<p>       ▼</p>
+<p>┌─────────────────────┐</p>
+<p>│ dispatch(loginUser) │</p>
+<p>│  (Redux Thunk)      │</p>
+<p>└──────┬──────────────┘</p>
+<p>       │</p>
+<p>       ▼</p>
+<p>┌─────────────────────┐</p>
+<p>│  authAPI.login()    │</p>
+<p>│  (API Service)      │</p>
+<p>└──────┬──────────────┘</p>
+<p>       │</p>
+<p>       ▼</p>
+<p>┌─────────────────────┐</p>
+<p>│  POST /auth/login   │</p>
+<p>│  (Backend API)      │</p>
+<p>└──────┬──────────────┘</p>
+<p>       │</p>
+<p>       ▼</p>
+<p>┌─────────────────────┐</p>
+<p>│  Response:          │</p>
+<p>│  { user, token }    │</p>
+<p>└──────┬──────────────┘</p>
+<p>       │</p>
+<p>       ▼</p>
+<p>┌─────────────────────┐</p>
+<p>│  Token saved to     │</p>
+<p>│  localStorage       │</p>
+<p>└──────┬──────────────┘</p>
+<p>       │</p>
+<p>       ▼</p>
+<p>┌─────────────────────┐</p>
+<p>│  Redux State        │</p>
+<p>│  Updated            │</p>
+<p>└──────┬──────────────┘</p>
+<p>       │</p>
+<p>       ▼</p>
+<p>┌─────────────────────┐</p>
+<p>│  Navigate based on  │</p>
+<p>│  user.role          │</p>
+<p>│  - ADMIN → /admin   │</p>
+<p>│  - USER → /products │</p>
+<p>└─────────────────────┘</p>
+<p></code></pre><h3>Token Management</h3><p><strong>Storage</strong>: JWT token stored in <code>localStorage</code> with key <code>'token'</code><p><strong>Injection</strong>: Axios request interceptor automatically adds token to headers:</p>
+<pre><code>api.interceptors.request.use((config) => {</p>
+<p>  const token = localStorage.getItem('token');</p>
+<p>  if (token) {</p>
+<p>    config.headers.Authorization = <code>Bearer ${token}</code>;</p>
+<p>  }</p>
+<p>  return config;</p>
+<p>});</p>
+<p></code></pre><p><strong>Error Handling</strong>: Response interceptor handles 401 errors:</p>
+<pre><code>api.interceptors.response.use(</p>
+<p>  (response) => response,</p>
+<p>  (error) => {</p>
+<p>    if (error.response?.status === 401) {</p>
+<p>      localStorage.removeItem('token');</p>
+<p>      window.location.href = '/auth/login';</p>
+<p>    }</p>
+<p>    return Promise.reject(error);</p>
+<p>  }</p>
+<p>);</p>
+<p></code></pre><h3>Protected Routes</h3><p><strong>Component</strong>: <code>src/components/common/ProtectedRoute.tsx</code><pre><code><ProtectedRoute requireAdmin></p>
+<p>  <AdminComponent /></p>
+<p></ProtectedRoute></p>
+<p></code></pre><p><strong>Logic</strong>:</p>
+<ul><li>Check if user is authenticated (<code>isAuthenticated</code>)</li></ul>
+<ul><li>If <code>requireAdmin</code> prop is true, check if <code>user.role === 'ADMIN'</code></li></ul>
+<ul><li>Redirect to login if not authenticated</li></ul>
+<ul><li>Redirect to home if not admin (when <code>requireAdmin</code> is true)</li></ul><p>---</p><h2>🧭 Routing & Navigation</h2><h3>Route Structure</h3><p><strong>File</strong>: <code>src/routes/index.tsx</code><pre><code>Public Routes:</p>
+<p>├── /                    → HomePage</p>
+<p>├── /products            → ProductsPage</p>
+<p>├── /products/:id        → ProductDetailPage</p>
+<p>├── /cart                → CartPage</p>
+<p>├── /auth/login          → LoginPage</p>
+<p>├── /auth/register       → RegisterPage</p>
+<p>└── /auth/reset-password → ResetPasswordPage</p><p>Protected Routes (Authenticated):</p>
+<p>├── /checkout            → CheckoutPage</p>
+<p>└── /profile             → ProfilePage</p><p>Protected Routes (Admin Only):</p>
+<p>├── /admin/dashboard     → DashboardPage</p>
+<p>├── /admin/orders        → OrdersPage</p>
+<p>├── /admin/products     → AdminProductsPage</p>
+<p>├── /admin/users         → UsersPage</p>
+<p>└── /admin/profile       → AdminProfilePage</p>
+<p></code></pre><h3>Route Constants</h3><p><strong>File</strong>: <code>src/routes/routes.ts</code><p>All frontend routes are centralized in this file for consistency:</p>
+<pre><code>export const ROUTES = {</p>
+<p>  HOME: '/',</p>
+<p>  PRODUCTS: '/products',</p>
+<p>  PRODUCT_DETAIL: (id: string) => <code>/products/${id}</code>,</p>
+<p>  // ... etc</p>
+<p>};</p>
+<p></code></pre><h3>Navigation Flow</h3><p><strong>After Login</strong>:</p>
+<ul><li><strong>ADMIN users</strong> → <code>/admin/dashboard</code></li></ul>
+<ul><li><strong>Regular users</strong> → <code>/products</code> (or <code>/</code>)</li></ul><p><strong>Layout Components</strong>:</p>
+<ul><li><strong>Desktop</strong>: <code>SidebarLayout</code> with persistent sidebar</li></ul>
+<ul><li><strong>Mobile</strong>: <code>DrawerLayout</code> with hamburger menu</li></ul><p>---</p><h2>📡 API Integration</h2><h3>API Service Architecture</h3><p><strong>File</strong>: <code>src/services/api.ts</code><h4>Axios Instance Configuration</h4><pre><code>const api = axios.create({</p>
+<p>  baseURL: import.meta.env.VITE_API_URL,</p>
+<p>  headers: {</p>
+<p>    'Content-Type': 'application/json',</p>
+<p>  },</p>
+<p>});</p>
+<p></code></pre><h4>Request Interceptor</h4>
+<ul><li>Automatically adds <code>Authorization: Bearer <token></code> header</li></ul>
+<ul><li>Token retrieved from <code>localStorage</code></li></ul><h4>Response Interceptor</h4>
+<ul><li>Handles 401 errors (unauthorized)</li></ul>
+<ul><li>Automatically logs out user and redirects to login</li></ul>
+<ul><li>Prevents redirect loop if already on login page</li></ul><h3>Centralized API URLs</h3><p><strong>File</strong>: <code>src/services/apiUrls.ts</code><p>All API endpoints are defined as constants:</p><pre><code>export const AUTH_URLS = {</p>
+<p>  LOGIN: '/auth/login',</p>
+<p>  REGISTER: '/auth/register',</p>
+<p>  GET_CURRENT_USER: '/users/me',</p>
+<p>  // ...</p>
+<p>};</p><p>export const PRODUCT_URLS = {</p>
+<p>  GET_ALL: '/products',</p>
+<p>  GET_BY_ID: (id: string) => <code>/products/${id}</code>,</p>
+<p>  // ...</p>
+<p>};</p>
+<p></code></pre><p><strong>Usage</strong>:</p>
+<pre><code>import { PRODUCT_URLS } from '@/services/apiUrls';</p>
+<p>const response = await api.get(PRODUCT_URLS.GET_ALL);</p>
+<p></code></pre><h3>API Response Handling</h3><p>The API service handles different response formats:</p><pre><code>// Handle different response formats</p>
+<p>if (response.data && response.data.data) {</p>
+<p>  return response.data.data;</p>
+<p>} else if (response.data && response.data.products) {</p>
+<p>  return response.data.products;</p>
+<p>}</p>
+<p>return response.data;</p>
+<p></code></pre><h3>Error Handling Pattern</h3><pre><code>try {</p>
+<p>  const data = await productsAPI.getAll();</p>
+<p>  // Handle success</p>
+<p>} catch (error: any) {</p>
+<p>  toast.error(</p>
+<p>    error.response?.data?.message || </p>
+<p>    error.message || </p>
+<p>    'Failed to load products'</p>
+<p>  );</p>
+<p>}</p>
+<p></code></pre><p>---</p><h2>🧩 Component Architecture</h2><h3>Component Hierarchy</h3><pre><code>App (main.tsx)</p>
+<p>└── Provider (Redux)</p>
+<p>    └── PersistGate</p>
+<p>        └── ThemeProvider</p>
+<p>            └── AuthProvider</p>
+<p>                └── BrowserRouter</p>
+<p>                    └── AppRoutes</p>
+<p>                        ├── Header (Global)</p>
+<p>                        └── Routes</p>
+<p>                            ├── Public Pages</p>
+<p>                            ├── Protected Pages</p>
+<p>                            └── Admin Pages</p>
+<p></code></pre><h3>Layout Components</h3><h4>Header Component</h4>
+<p><strong>File</strong>: <code>src/components/layout/Header.tsx</code><p><strong>Features</strong>:</p>
+<ul><li>Global navigation</li></ul>
+<ul><li>User menu dropdown</li></ul>
+<ul><li>Theme toggle</li></ul>
+<ul><li>Cart icon with item count</li></ul>
+<ul><li>Mobile responsive</li></ul><h4>SidebarLayout Component</h4>
+<p><strong>File</strong>: <code>src/components/layout/SidebarLayout.tsx</code><p><strong>Features</strong>:</p>
+<ul><li>Desktop sidebar navigation</li></ul>
+<ul><li>Admin menu items</li></ul>
+<ul><li>Active route highlighting</li></ul>
+<ul><li>Collapsible sections</li></ul><h4>DrawerLayout Component</h4>
+<p><strong>File</strong>: <code>src/components/layout/DrawerLayout.tsx</code><p><strong>Features</strong>:</p>
+<ul><li>Mobile drawer navigation</li></ul>
+<ul><li>Hamburger menu trigger</li></ul>
+<ul><li>Slide-in animation</li></ul>
+<ul><li>Overlay backdrop</li></ul><h3>UI Components (shadcn/ui)</h3><p>All UI components are located in <code>src/components/ui/</code>:</p>
+<ul><li><code>Button</code> - Various variants (default, outline, ghost, etc.)</li></ul>
+<ul><li><code>Card</code> - Container component</li></ul>
+<ul><li><code>Input</code> - Form input with error state</li></ul>
+<ul><li><code>Dialog</code> - Modal dialogs</li></ul>
+<ul><li><code>Drawer</code> - Mobile drawer</li></ul>
+<ul><li><code>Table</code> - Data tables</li></ul>
+<ul><li><code>Toast</code> - Toast notifications (via Sonner)</li></ul>
+<ul><li>And more...</li></ul><p><strong>Usage Pattern</strong>:</p>
+<pre><code>import { Button } from '@/components/ui/button';</p>
+<p>import { Card, CardContent, CardHeader } from '@/components/ui/card';</p><p><Card></p>
+<p>  <CardHeader></p>
+<p>    <CardTitle>Title</CardTitle></p>
+<p>  </CardHeader></p>
+<p>  <CardContent></p>
+<p>    <Button>Click me</Button></p>
+<p>  </CardContent></p>
+<p></Card></p>
+<p></code></pre><p>---</p><h2>📝 Form Handling</h2><h3>Formik + Yup Pattern</h3><p><strong>Example</strong>: Login Form</p><pre><code>// 1. Define validation schema</p>
+<p>const loginSchema = Yup.object().shape({</p>
+<p>  email: Yup.string()</p>
+<p>    .email('Invalid email')</p>
+<p>    .required('Email is required'),</p>
+<p>  password: Yup.string()</p>
+<p>    .required('Password is required'),</p>
+<p>});</p><p>// 2. Use Formik component</p>
+<p><Formik</p>
+<p>  initialValues={{ email: '', password: '' }}</p>
+<p>  validationSchema={loginSchema}</p>
+<p>  onSubmit={async (values, { setSubmitting }) => {</p>
+<p>    try {</p>
+<p>      await dispatch(loginUser(values)).unwrap();</p>
+<p>      // Handle success</p>
+<p>    } catch (error) {</p>
+<p>      // Handle error</p>
+<p>    } finally {</p>
+<p>      setSubmitting(false);</p>
+<p>    }</p>
+<p>  }}</p>
+<p>></p>
+<p>  {({ isSubmitting, errors, touched }) => (</p>
+<p>    <Form></p>
+<p>      <Field</p>
+<p>        as={Input}</p>
+<p>        name="email"</p>
+<p>        error={errors.email && touched.email}</p>
+<p>      /></p>
+<p>      {errors.email && touched.email && (</p>
+<p>        <p className="text-sm text-destructive">{errors.email}</p></p>
+<p>      )}</p>
+<p>      {/<em> ... </em>/}</p>
+<p>    </Form></p>
+<p>  )}</p>
+<p></Formik></p>
+<p></code></pre><h3>Form Validation Flow</h3><ul><li><strong>Schema Definition</strong>: Yup schema defines validation rules</li></ul>
+<ul><li><strong>Real-time Validation</strong>: Formik validates on blur and change</li></ul>
+<ul><li><strong>Error Display</strong>: Errors shown inline below fields</li></ul>
+<ul><li><strong>Submit Prevention</strong>: Form won't submit if validation fails</li></ul>
+<ul><li><strong>Toast Notifications</strong>: Success/error messages via Sonner</li></ul><p>---</p><h2>🎨 Theme System</h2><h3>Theme Provider</h3><p><strong>File</strong>: <code>src/theme/theme-provider.tsx</code><p><strong>Features</strong>:</p>
+<ul><li>Dark/Light mode toggle</li></ul>
+<ul><li>System theme detection</li></ul>
+<ul><li>Persistent theme preference (localStorage)</li></ul>
+<ul><li>Smooth theme transitions</li></ul><h3>Usage</h3><pre><code>// In component</p>
+<p>import { useTheme } from '@/theme/theme-provider';</p><p>const { theme, setTheme } = useTheme();</p><p><Button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}></p>
+<p>  Toggle Theme</p>
+<p></Button></p>
+<p></code></pre><h3>Theme Classes</h3><p>Tailwind CSS dark mode classes:</p>
+<pre><code>className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white"</p>
+<p></code></pre><p>---</p><h2>📊 Data Flow Diagrams</h2><h3>Product Listing Flow</h3><pre><code>User Action: Visit /products</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>ProductsPage Component</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>useEffect Hook</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>productsAPI.getAll()</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>GET /products (API)</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>Response: Product[]</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>setProducts(state)</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>Render Product Grid</p>
+<p></code></pre><h3>Add to Cart Flow</h3><pre><code>User Action: Click "Add to Cart"</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>handleAddToCart()</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>dispatch(addToCart({ product, quantity }))</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>cartSlice Reducer</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>Update Redux State</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>Persist to localStorage</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>Show Success Toast</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>Update Cart Icon Badge</p>
+<p></code></pre><h3>Order Creation Flow</h3><pre><code>User Action: Submit Checkout Form</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>CheckoutPage onSubmit</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>Validate Shipping Info</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>ordersAPI.create(items, shippingInfo)</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>POST /orders (API)</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>Response: Order</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>dispatch(clearCart())</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>Navigate to Profile/Orders</p>
+<p>     │</p>
+<p>     ▼</p>
+<p>Show Success Toast</p>
+<p></code></pre><p>---</p><h2>🔧 Implementation Details</h2><h3>Type Safety</h3><p><strong>File</strong>: <code>src/types/index.ts</code><p>All TypeScript interfaces are centralized:</p><pre><code>export interface User {</p>
+<p>  id: string;</p>
+<p>  email: string;</p>
+<p>  name: string;</p>
+<p>  role: 'ADMIN' | 'USER';</p>
+<p>  createdAt: string;</p>
+<p>}</p><p>export interface Product {</p>
+<p>  id: string;</p>
+<p>  name: string;</p>
+<p>  description: string;</p>
+<p>  purchasePrice: number;</p>
+<p>  salePrice: number;</p>
+<p>  margin: number;</p>
+<p>  stock: number;</p>
+<p>  isVisible: boolean;</p>
+<p>  images: string[];</p>
+<p>  createdAt: string;</p>
+<p>  updatedAt: string;</p>
+<p>}</p><p>export interface Order {</p>
+<p>  id: string;</p>
+<p>  userId: string;</p>
+<p>  user: {</p>
+<p>    id: string;</p>
+<p>    name: string;</p>
+<p>    email: string;</p>
+<p>  };</p>
+<p>  status: 'PENDING' | 'PROCEEDED' | 'CANCELLED';</p>
+<p>  totalAmount: number;</p>
+<p>  orderItems: OrderItem[];</p>
+<p>  createdAt: string;</p>
+<p>}</p>
+<p></code></pre><h3>Error Handling Strategy</h3><ul><li><strong>API Errors</strong>: Caught in try-catch blocks</li></ul>
+<ul><li><strong>Display</strong>: Toast notifications via Sonner</li></ul>
+<ul><li><strong>User Feedback</strong>: Clear, actionable error messages</li></ul>
+<ul><li><strong>Logging</strong>: Console logging for debugging (development)</li></ul><h3>Loading States</h3><p>Components use local state for loading indicators:</p><pre><code>const [loading, setLoading] = useState(true);</p><p>useEffect(() => {</p>
+<p>  const loadData = async () => {</p>
+<p>    try {</p>
+<p>      setLoading(true);</p>
+<p>      const data = await api.getData();</p>
+<p>      setData(data);</p>
+<p>    } finally {</p>
+<p>      setLoading(false);</p>
+<p>    }</p>
+<p>  };</p>
+<p>  loadData();</p>
+<p>}, []);</p><p>if (loading) return <div>Loading...</div>;</p>
+<p></code></pre><h3>Responsive Design Strategy</h3><ul><li><strong>Mobile First</strong>: Base styles for mobile</li></ul>
+<ul><li><strong>Breakpoints</strong>: <code>sm:</code>, <code>md:</code>, <code>lg:</code>, <code>xl:</code> Tailwind classes</li></ul>
+<ul><li><strong>Conditional Rendering</strong>: Different components for mobile/desktop</li></ul>
+<ul><li><strong>Flexible Layouts</strong>: CSS Grid and Flexbox</li></ul><h3>Performance Optimizations</h3><ul><li><strong>Code Splitting</strong>: React Router lazy loading (if implemented)</li></ul>
+<ul><li><strong>Memoization</strong>: React.memo for expensive components</li></ul>
+<ul><li><strong>Redux Selectors</strong>: Efficient state selection</li></ul>
+<ul><li><strong>Image Optimization</strong>: Lazy loading for product images</li></ul>
+<ul><li><strong>Bundle Size</strong>: Tree-shaking via Vite</li></ul><h3>Security Considerations</h3><ul><li><strong>Token Storage</strong>: localStorage (consider httpOnly cookies for production)</li></ul>
+<ul><li><strong>XSS Protection</strong>: React's built-in escaping</li></ul>
+<ul><li><strong>Input Validation</strong>: Both client-side (Yup) and server-side</li></ul>
+<ul><li><strong>HTTPS</strong>: Required in production</li></ul>
+<ul><li><strong>CORS</strong>: Backend must allow frontend origin</li></ul><p>---</p><h2>🚀 Deployment Checklist</h2><ul><li>[ ] Set <code>VITE_API_URL</code> environment variable</li></ul>
+<ul><li>[ ] Build production bundle: <code>npm run build</code></li></ul>
+<ul><li>[ ] Test production build: <code>npm run preview</code></li></ul>
+<ul><li>[ ] Configure backend CORS for production domain</li></ul>
+<ul><li>[ ] Set up HTTPS</li></ul>
+<ul><li>[ ] Test all authentication flows</li></ul>
+<ul><li>[ ] Test all admin features</li></ul>
+<ul><li>[ ] Test responsive design on multiple devices</li></ul>
+<ul><li>[ ] Verify error handling</li></ul>
+<ul><li>[ ] Check console for errors/warnings</li></ul>
+<ul><li>[ ] Optimize images</li></ul>
+<ul><li>[ ] Set up error tracking (e.g., Sentry)</li></ul><p>---</p><h2>📖 Additional Resources</h2><ul><li><strong>React Documentation</strong>: https://react.dev</li></ul>
+<ul><li><strong>Redux Toolkit</strong>: https://redux-toolkit.js.org</li></ul>
+<ul><li><strong>React Router</strong>: https://reactrouter.com</li></ul>
+<ul><li><strong>Formik</strong>: https://formik.org</li></ul>
+<ul><li><strong>Tailwind CSS</strong>: https://tailwindcss.com</li></ul>
+<ul><li><strong>shadcn/ui</strong>: https://ui.shadcn.com</li></ul><p>---</p><p><strong>Built with ❤️ using React, TypeScript, and modern web technologies</strong></p>
+
+</body>
+</html>
